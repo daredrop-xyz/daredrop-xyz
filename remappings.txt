@@ -1,0 +1,5 @@
+forge-std/=packages/contracts/lib/forge-std/src/
+@openzeppelin/=packages/contracts/lib/openzeppelin-contracts/
+@solmate/=packages/contracts/lib/solmate/
+@chainlink/=packages/contracts/lib/chainlink-brownie-contracts/
+erc721a/=packages/contracts/lib/ERC721A/

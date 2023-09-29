@@ -1,0 +1,96 @@
+--- ./packages/contracts/src/DareDrop.sol
++++ ./packages/contracts/src/DareDrop.sol
+@@ -64,7 +64,7 @@
+         bool isGameComplete;
+     }
+     //gameId => GameStatus
+-    mapping(uint => GameStatus) public Games;
++    mapping(uint => GameStatus) public games;
+ 
+     //used for vrf refunds on proceeding dares for given user.
+     mapping(address => uint256) public userToLastCallback;
+@@ -117,11 +117,11 @@
+     }
+ 
+     function getPoolBalance() view external returns(uint) {
+-        return(Games[gameId].poolBalance);
++        return(games[gameId].poolBalance);
+ 
+     }
+     function getRewards() view external returns(uint) {
+-        return(Games[gameId].rewards);
++        return(games[gameId].rewards);
+ 
+     }
+     //"drop" funds into pool
+@@ -130,20 +130,20 @@
+         if (_amount == 0) revert AmountZero();
+         ERC20(ASSET).safeTransferFrom(msg.sender, address(this), _amount);
+         userBalance[msg.sender][gameId]  += _amount;
+-        Games[gameId].poolBalance += _amount;
++        games[gameId].poolBalance += _amount;
+         emit Drop(msg.sender, _amount);
+     }
+     function dare(uint _amount) external payable reentrancyGuard  requiresLockStatus(0) {
+         if (msg.value < randomizer.estimateFee(callbackGasLimit)) revert InsufficientVRFFee();
+         if (_amount == 0) revert AmountZero();
+         if (_amount < 100) revert  AmountTooSmall();
+-        if (Games[gameId].poolBalance == 0) revert NoDropPool();
++        if (games[gameId].poolBalance == 0) revert NoDropPool();
+         uint _dropCut = (_amount * dropCut/100);
+         uint _houseCut = (_amount * houseCut/100);
+         _amount -= _houseCut;
+         ERC20(ASSET).safeTransferFrom(msg.sender, owner, _houseCut);
+         ERC20(ASSET).safeTransferFrom(msg.sender, address(this), _amount);
+-        Games[gameId].rewards += _amount;
++        games[gameId].rewards += _amount;
+         ////disable gameplay while dare result is being fetched.
+         //lock further drops dares until result is determined for current dare
+         lock = 1;
+@@ -166,7 +166,7 @@
+         if (msg.sender != address(randomizer)) revert OnlyRandomizer();
+         Dare memory lastDare = dares[_id];
+         uint256 seed = uint256(_value);
+-        bool isDareSuccess =  (seed % Games[gameId].poolBalance) < lastDare.wager ? true : false;
++        bool isDareSuccess =  (seed % games[gameId].poolBalance) < lastDare.wager ? true : false;
+         lastDare.seed = seed;
+         lastDare.result = isDareSuccess;
+         dares[_id] = lastDare;
+@@ -179,8 +179,8 @@
+     function handleDareResult(bool _isDareSuccess, address darer) private {
+         if (_isDareSuccess) {
+             //transfer entire pool to player that made the dare 
+-            ERC20(ASSET).safeTransfer(darer, Games[gameId].poolBalance);
+-            Games[gameId].isGameComplete = true;
++            ERC20(ASSET).safeTransfer(darer, games[gameId].poolBalance);
++            games[gameId].isGameComplete = true;
+             emit GameCompleted(gameId);
+             ++gameId;
+         }
+@@ -194,20 +194,20 @@
+         if (_amount > balance) revert InsufficientFunds();
+         ERC20(ASSET).safeTransfer(msg.sender, _amount);
+         userBalance[msg.sender][gameId] -= _amount;
+-        Games[gameId].poolBalance -= _amount;
++        games[gameId].poolBalance -= _amount;
+         emit Withdraw(msg.sender, _amount);
+     }
+     function claimRewards(uint _gameId) external reentrancyGuard {
+         uint _userBalance = userBalance[msg.sender][_gameId];
+         if (_userBalance == 0) revert AmountZero();
+-        if (!Games[_gameId].isGameComplete) revert GameIncomplete();
+-        if (Games[_gameId].rewards == 0) revert InsufficientFunds();
++        if (!games[_gameId].isGameComplete) revert GameIncomplete();
++        if (games[_gameId].rewards == 0) revert InsufficientFunds();
+         // send rewards to user
+-        uint _poolBalance = Games[_gameId].poolBalance;
+-        uint _rewards = Games[_gameId].rewards;
++        uint _poolBalance = games[_gameId].poolBalance;
++        uint _rewards = games[_gameId].rewards;
+         uint _userRewards = _rewards*_userBalance/_poolBalance;
+         ERC20(ASSET).safeTransfer(msg.sender, _userRewards);
+-        Games[_gameId].rewards -= _userRewards;
++        games[_gameId].rewards -= _userRewards;
+         delete userBalance[msg.sender][_gameId];
+         //@TODO update event params to include game id
+         emit RewardsClaimed(msg.sender, _userRewards);

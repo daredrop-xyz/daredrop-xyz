@@ -1,0 +1,15 @@
+--- ./packages/contracts/src/DareDrop.sol
++++ ./packages/contracts/src/DareDrop.sol
+@@ -83,9 +83,9 @@
+         emit OwnershipTransferred(msg.sender, owner);
+     }
+     uint256 callbackGasLimit = 200000;
+-    function updateCallbackGasLimit(uint _gasLimit) external onlyOwner {
+-        callbackGasLimit = _gasLimit;
+-        emit UpdatedGasLimit(_gasLimit);
++    function updateCallbackGasLimit(uint gasLimit) external onlyOwner {
++        callbackGasLimit = gasLimit;
++        emit UpdatedGasLimit(gasLimit);
+     }
+     function setHouseCut(uint8 _houseCut) onlyOwner external {
+         houseCut = _houseCut;
