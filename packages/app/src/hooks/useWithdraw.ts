@@ -1,3 +1,4 @@
+import { BigNumber } from "ethers";
 import { usePromiseFn } from "../usePromiseFn";
 import { switchChain } from "../switchChain";
 import { extractContractError } from "../extractContractError";
@@ -40,7 +41,7 @@ const useWithdraw = ({ connector, address, chain, symbol }: Props) => {
 
             underlyingAssetContract = underlyingAssetContract.connect(signer);
             const decimals = await underlyingAssetContract.decimals();
-            const num = quantity * 10 ** decimals;
+            const num = BigNumber.from(quantity * 10).pow(decimals);
             try {
                 onProgress(
                     `Withdrawing ${pluralize(
@@ -50,7 +51,7 @@ const useWithdraw = ({ connector, address, chain, symbol }: Props) => {
                               )} from the pool...`
                 );
 
-                const tx = await promiseNotify(contract.withdraw(num)).after(
+                const tx = await promiseNotify(contract.withdraw(num.toString())).after(
                     1000 * 5,
                     () =>
                         onProgress(

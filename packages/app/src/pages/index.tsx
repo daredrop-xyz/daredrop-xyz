@@ -9,6 +9,7 @@ import { MintButton } from "../MintButton";
 import { Games } from "../Games";
 import { useIsMounted } from "../useIsMounted";
 import { randomizerAbi } from "../abi/randomizer";
+import { BigNumber as type } from "ethers";
 import getConfig from "../constants";
 import Logo from "../assets/logo.png";
 
@@ -22,17 +23,17 @@ const HomePage: NextPage = () => {
         chain ? chain.name : "Arbitrum"
     ).asset;
 
-    const [_poolBalance, setPoolBalance] = useState<number | null>(null);
+    const [_poolBalance, setPoolBalance] = useState<BigNumber | null>(null);
     const [_lock, setLock] = useState<number | null>(null);
-    const [_rewards, setRewards] = useState<number | null>(null);
+    const [_rewards, setRewards] = useState<BigNumber | null>(null);
     const [_decimals, setDecimals] = useState<number | null>(null);
     const [_symbol, setSymbol] = useState<string | null>(null);
     const [_gameId, setGameId] = useState<number | null>(null);
-    const [_userBalance, setUserBalance] = useState<number | null>(null);
-    const [_userAssetBalance, setUserAssetBalance] = useState<number | null>(
+    const [_userBalance, setUserBalance] = useState<BigNumber | null>(null);
+    const [_userAssetBalance, setUserAssetBalance] = useState<BigNumber | null>(
         null
     );
-    const [_dareFeePriceData, setDareFeePriceData] = useState<number | null>(
+    const [_dareFeePriceData, setDareFeePriceData] = useState<BigNumber | null>(
         null
     );
 
@@ -47,7 +48,7 @@ const HomePage: NextPage = () => {
         args: [200000, feeData?.gasPrice ?? 100000000],
         watch: true,
         onSuccess(data: any) {
-            setDareFeePriceData((data.toNumber() * 150) / 100);
+            setDareFeePriceData(data.mul(150).div(100));
         },
     });
 
@@ -55,7 +56,7 @@ const HomePage: NextPage = () => {
         functionName: "getPoolBalance",
         watch: true,
         onSuccess(data: any) {
-            setPoolBalance(data.toNumber());
+            setPoolBalance(data);
         },
     });
     const lock: any = useDareDropContractRead({
@@ -69,7 +70,7 @@ const HomePage: NextPage = () => {
         functionName: "getRewards",
         watch: true,
         onSuccess(data: any) {
-            setRewards(data.toNumber());
+            setRewards(data);
         },
     });
     const decimals: any = useAssetContractRead({
@@ -98,10 +99,10 @@ const HomePage: NextPage = () => {
         functionName: "userBalance",
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         //@ts-ignore
-        args: [address, gameId.data ?? gameId.data?.toNumber()],
+        args: [address, gameId.data ?? gameId.data],
         watch: true,
         onSuccess(data: any) {
-            setUserBalance(data.toNumber());
+            setUserBalance(data);
         },
     });
     const userAssetBalance: any = useAssetContractRead({
@@ -109,7 +110,7 @@ const HomePage: NextPage = () => {
         args: [address],
         watch: true,
         onSuccess(data: any) {
-            setUserAssetBalance(data.toNumber());
+            setUserAssetBalance(data);
         },
     });
 

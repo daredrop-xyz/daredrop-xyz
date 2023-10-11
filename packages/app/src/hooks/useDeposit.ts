@@ -1,3 +1,4 @@
+import { BigNumber } from "ethers";
 import { usePromiseFn } from "../usePromiseFn";
 import { switchChain } from "../switchChain";
 import { extractContractError } from "../extractContractError";
@@ -16,7 +17,7 @@ type Props = {
     connector: any;
     address: string;
     chain: any;
-    fee: number;
+    fee: BigNumber;
     symbol: string;
 };
 const useDeposit = ({ connector, address, chain, fee, symbol }: Props) => {
@@ -50,10 +51,10 @@ const useDeposit = ({ connector, address, chain, fee, symbol }: Props) => {
             );
             const decimals = await underlyingAssetContract.decimals();
 
-            const num = quantity * 10 ** decimals;
-            console.log("allowance", allowance.toNumber());
-            console.log("numAmount", num);
-            if (allowance.toNumber() >= num) {
+            const num = BigNumber.from(quantity * 10).pow(decimals); 
+            console.log("allowance", allowance);
+            console.log("numAmount", num.toString());
+            if (allowance.gt(num) ) {
                 try {
                     onProgress(
                         isDare
@@ -71,10 +72,10 @@ const useDeposit = ({ connector, address, chain, fee, symbol }: Props) => {
 
                     const tx = await promiseNotify(
                         isDare
-                            ? contract.dare(num, {
-                                  value: fee,
+                            ? contract.dare(num.toString(), {
+                                  value: fee.toString(),
                               })
-                            : contract.drop(num)
+                            : contract.drop(num.toString())
                     ).after(1000 * 5, () =>
                         onProgress("Please confirm transaction in your wallet…")
                     );
@@ -106,7 +107,7 @@ const useDeposit = ({ connector, address, chain, fee, symbol }: Props) => {
                     const tx = await promiseNotify(
                         underlyingAssetContract.approve(
                             DareDropContractData.deployedTo,
-                            num
+                            num.toString()
                         )
                     ).after(1000 * 5, () =>
                         onProgress("Please confirm transaction in your wallet…")
@@ -148,10 +149,10 @@ const useDeposit = ({ connector, address, chain, fee, symbol }: Props) => {
 
                     const tx = await promiseNotify(
                         isDare
-                            ? contract.dare(num, {
+                            ? contract.dare(num.toString(), {
                                   value: fee,
                               })
-                            : contract.drop(num)
+                            : contract.drop(num.toString())
                     ).after(1000 * 5, () =>
                         onProgress("Please confirm transaction in your wallet…")
                     );

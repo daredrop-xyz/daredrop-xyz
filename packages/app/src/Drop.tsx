@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { toast } from "react-toastify";
 import InputNumber from "react-input-number";
+import { BigNumber as type } from "ethers";
 import { Button } from "./Button";
 import { useDareDropContractRead, useAssetContractRead } from "./contracts";
 import { useIsMounted } from "./useIsMounted";
@@ -16,13 +17,13 @@ type Props = {
     claimRewardsResult: any; //tricky typing
     claimRewards: any; //tricky typing
     address: string;
-    userAssetBalance: number | null;
-    userBalance: number | null;
+    userAssetBalance: BigNumber | null;
+    userBalance: BigNumber | null;
     isMounted: boolean;
-    rewards: number | null;
+    rewards: BigNumber | null;
     decimals: number | null;
     symbol: string | null;
-    poolBalance: number | null;
+    poolBalance: BigNumber | null;
     lock: number | null;
 };
 
@@ -171,107 +172,6 @@ const Drop = ({
                         : "??"}
                     &nbsp;{symbol}
                 </span>
-
-                {/*
-pan className="flex flex-row justify-around items-center h-1/8 text-[#c9f2f2] relative top-3 right-[13.5rem]">
-                    stake:{" "}
-                    {isMounted && userBalance && decimals
-                        ? userBalance / 10 ** decimals
-                        : "??"}
-                    &nbsp;{symbol ?? ''}
-                </span>
-
-                <span className="flex flex-row justify-around items-center h-1/4 w-full text-[#c9f2f2]">
-                    <InputNumber
-                        disabled={!isConnected}
-                        className="border-2 border-black p-2 h-1/2 w-[344px] bg-[#2B2A33] text-[#c9f2f2] h-[50px]"
-                        placeholder="withdraw amount"
-                        onChange={setAmount}
-                    />
-                    <Button
-                        className="h-1/2 flex flex-col justify-center items-center text-center w-[172px] bg-[#67a0fc] text-[#111827] text-xl"
-                        disabled={debouncedAmount === 0 || !isConnected}
-                        pending={withdraw.type === "pending"}
-                        onClick={(event) => {
-                            event.preventDefault();
-                            const toastId = toast.loading("Starting…");
-
-                            withdraw(debouncedAmount, (message) => {
-                                toast.update(toastId, { render: message });
-                            }).then(
-                                () => {
-                                    // TODO: show etherscan link?
-                                    toast.update(toastId, {
-                                        isLoading: false,
-                                        type: "success",
-                                        render: `Transaction success!`,
-                                        autoClose: 5000,
-                                        closeButton: true,
-                                    });
-                                },
-                                (error) => {
-                                    toast.update(toastId, {
-                                        isLoading: false,
-                                        type: "error",
-                                        render: String(error.message),
-                                        autoClose: 5000,
-                                        closeButton: true,
-                                    });
-                                }
-                            );
-                        }}
-                    >
-                        {"Withdraw."}
-                    </Button>
-                </span>
-
-                    }
-                <s                {/*
-                <span className="flex flex-row justify-around items-center h-1/4 w-full text-lime-300 ">
-                    <span className="text-center flex flex-col justify-center items-center w-[344px]">
-                        unclaimed rewards:{" "}
-                        {isMounted && rewards
-                            ? rewards
-                            : "??"}
-                    &nbsp; USDC
-                    </span>
-                    <Button
-                        className="h-1/2 flex flex-col justify-center items-center  w-[172px]"
-                        disabled={debouncedAmount === 0 || !isConnected}
-                        pending={withdraw.type === "pending"}
-                        onClick={(event) => {
-                            event.preventDefault();
-                            const toastId = toast.loading("Starting…");
-
-                            claimRewards((message) => {
-                                toast.update(toastId, { render: message });
-                            }).then(
-                                () => {
-                                    // TODO: show etherscan link?
-                                    toast.update(toastId, {
-                                        isLoading: false,
-                                        type: "success",
-                                        render: `Rewards claimed!`,
-                                        autoClose: 5000,
-                                        closeButton: true,
-                                    });
-                                },
-                                (error) => {
-                                    toast.update(toastId, {
-                                        isLoading: false,
-                                        type: "error",
-                                        render: String(error.message),
-                                        autoClose: 5000,
-                                        closeButton: true,
-                                    });
-                                }
-                            );
-                        }}
-                    >
-                        {"Claim."}
-                    </Button>
-                </span>
-                  */}
             </div>
         </>
     );

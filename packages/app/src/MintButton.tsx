@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useDebounce } from "use-debounce";
+import { BigNumber as type } from "ethers";
 import Modal from "./Modal";
 import Dare from "./Dare";
 import Drop from "./Drop";
@@ -7,14 +8,14 @@ import { Button } from "./Button";
 import { useDeposit, useWithdraw, useClaimRewards } from "./hooks";
 
 type Props = {
-    dareFee: number;
-    poolBalance: number;
+    dareFee: BigNumber;
+    poolBalance: BigNumber;
     lock: number;
-    rewards: number;
+    rewards: BigNumber;
     decimals: number;
-    gameId: number;
-    userBalance: number;
-    userAssetBalance: number;
+    gameId: BigNumber;
+    userBalance: BigNumber;
+    userAssetBalance: BigNumber;
     isMounted: boolean;
     chain: any; //tricky typing im lazy
     connector: any; //tricky typing im lazy
@@ -23,30 +24,11 @@ type Props = {
 };
 export const MintButton = ({dareFee, poolBalance, lock, rewards, decimals, gameId, userBalance, userAssetBalance, chain, connector, address, isMounted, symbol}: Props) => {
     const [isApproved, setIsApproved] = useState(false);
-    const [amount, setAmount] = useState<number>(0);
+    const [amount, setAmount] = useState<amount>(0);
     const [debouncedAmount] = useDebounce(amount, 500);
     const [isDare, setIsDare] = useState<"dare" | "drop" | null>(null);
-
-
-    //   const { config } = usePrepareContractWrite({
-    //       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    //       //@ts-ignore
-    //       address: isDareDropContractData.deployedTo as string,
-    //       abi: isDareDropContract__factory.abi,
-    //       functionName: isDare ? "isDare" : "drop",
-    //       value: isDare ? dareFee : "",
-    //   });
-    //   const { writeAsync } = useContractWrite(config);
-    //
-    //
-
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    //    useEffect(() => {
-    //        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    //        //@ts-ignore
-    //        setDareFee((dareFeePriceData?.toNumber() * 135) / 100); // best to overshoot just in case, will be refunded either way
-    //    }, [dareFeePriceData]);
 
     const { depositResult, deposit } = useDeposit({
         connector: connector,
