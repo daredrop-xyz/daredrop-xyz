@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import InputNumber from "react-input-number";
-import { BigNumber as type } from "ethers";
+import { BigNumber } from "ethers";
 import { Button } from "./Button";
 import { useDareDropContractRead, useAssetContractRead } from "./contracts";
 
@@ -141,13 +141,14 @@ const Dare = ({
                     {isMounted && decimals && poolBalance !== null
                         ? poolBalance.eq(0)
                             ? 0
-                            : BigNumber.from(debouncedAmount)
-                                  .mul(0.75)
-                                  .mul(10)
-                                  .pow(decimals)
-                                  .div(poolBalance)
-                                  .mul(100).toNumber()
-                        : "??"}
+                            : Math.floor(
+                                  100 *
+                                      ((0.75 *
+                                          debouncedAmount *
+                                          10 ** decimals) /
+                                          poolBalance) *
+                                      100
+                              ) / 100                        : "??"}
                     %
                 </span>
                 <span className=" font-semibold flex flex-row justify-around items-center h-1/8 text-[#c9f2f2] absolute left-6 bottom-7">
