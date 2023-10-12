@@ -51,10 +51,16 @@ const useDeposit = ({ connector, address, chain, fee, symbol }: Props) => {
             );
             const decimals = await underlyingAssetContract.decimals();
 
-            const num = BigNumber.from(quantity).mul(10 ** decimals); 
+            let num;
+            try {
+                num = BigNumber.from(quantity * 10 ** decimals);
+            } catch {
+                num = BigNumber.from(quantity).mul(10 ** decimals);
+            }
+
             console.log("allowance", allowance);
             console.log("numAmount", num.toString());
-            if (allowance.gt(num) ) {
+            if (allowance.gt(num)) {
                 try {
                     onProgress(
                         isDare
