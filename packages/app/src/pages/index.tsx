@@ -7,7 +7,7 @@ import { useFeeData, useContractRead, useNetwork, useAccount } from "wagmi";
 import { useDareDropContractRead, useAssetContractRead } from "../contracts";
 import { Interact } from "../Interact";
 import { Games } from "../Games";
-import { useIsMounted } from "../useIsMounted";
+import { useIsMounted } from "../hooks/useIsMounted";
 import { randomizerAbi } from "../abi/randomizer";
 import { BigNumber as type } from "ethers";
 import getConfig from "../constants";

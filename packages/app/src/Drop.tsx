@@ -4,7 +4,7 @@ import InputNumber from "react-input-number";
 import { BigNumber as type } from "ethers";
 import { Button } from "./Button";
 import { useDareDropContractRead, useAssetContractRead } from "./contracts";
-import { useIsMounted } from "./useIsMounted";
+import { useIsMounted } from "./hooks/useIsMounted";
 
 type Props = {
     setAmount: (amount: number) => void;

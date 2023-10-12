@@ -3,7 +3,7 @@ import { useAccount } from "wagmi";
 
 import { useInventoryQuery } from "../codegen/subgraph";
 import { PendingIcon } from "./PendingIcon";
-import { useIsMounted } from "./useIsMounted";
+import { useIsMounted } from "./hooks/useIsMounted";
 import { dareDropContract } from "./contracts";
 
 gql`

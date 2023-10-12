@@ -1,5 +1,5 @@
 import { BigNumber } from "ethers";
-import { usePromiseFn } from "../usePromiseFn";
+import { usePromiseFn } from "../hooks/usePromiseFn";
 import { switchChain } from "../switchChain";
 import { extractContractError } from "../extractContractError";
 import { promiseNotify } from "../promiseNotify";
