@@ -48,12 +48,12 @@ Contract: [Arbiscan Contract Link](https://arbiscan.io/address/0xee7155c76f9dfa1
 ### layout:
 template initialized from https://github.com/holic/web3-scaffold
 
-contracts under packages/contracts
+contracts under packages/contracts using foundry
 
-frontend under packges/app
+frontend under packges/app using nextjs/tailwind
 
 subgraph stuff under packages/subgraph (not yet integrated/no need atm)
 
 
 ### running locally:
-please see `scaffold.md` for local environment outline/setup.
+please see `scaffold.md` for a more detailed local environment outline/setup.
