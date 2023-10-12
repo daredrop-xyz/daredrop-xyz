@@ -45,7 +45,10 @@ Play here: [daredrop.xyz](https://www.daredrop.xyz/)
 Contract: [Arbiscan Contract Link](https://arbiscan.io/address/0xee7155c76f9dfa1c1a18525b33cfb93a04bfb220#code)
 
 
-
+### layout:
+contracts under packages/contracts
+frontend under packges/app
+subgraph stuff under packages/subgraph (not yet integrated/no need atm)
 
 
 ### running locally:
