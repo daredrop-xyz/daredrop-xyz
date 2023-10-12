@@ -41,7 +41,7 @@ const useWithdraw = ({ connector, address, chain, symbol }: Props) => {
 
             underlyingAssetContract = underlyingAssetContract.connect(signer);
             const decimals = await underlyingAssetContract.decimals();
-            const num = BigNumber.from(quantity * 10).pow(decimals);
+            const num = BigNumber.from(quantity).mul(10** decimals);
             try {
                 onProgress(
                     `Withdrawing ${pluralize(

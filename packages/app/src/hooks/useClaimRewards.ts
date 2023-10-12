@@ -43,7 +43,7 @@ const useClaimRewards = ({ connector, address, symbol }: Props) => {
         const poolBalance = game[1];
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         //@ts-ignore
-        const userRewards = (rewards.mul(userBalance) ) / poolBalance;
+        const userRewards = rewards.mul(userBalance).div(poolBalance);
         return userRewards;
     };
     const [claimRewardsResult, claimRewards] = usePromiseFn(
