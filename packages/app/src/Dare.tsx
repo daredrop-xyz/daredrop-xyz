@@ -1,18 +1,19 @@
 import { useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import InputNumber from "react-input-number";
+import { BigNumber } from "ethers";
 import { Button } from "./Button";
 import { useDareDropContractRead, useAssetContractRead } from "./contracts";
 
 type Props = {
-    setAmount: (amount: number) => void;
+    setAmount: (amount: BigNumber) => void;
     debouncedAmount: number;
     isConnected: boolean;
     depositResult: any; //tricky typing
     deposit: any; //tricky typing
     address: string;
-    poolBalance: number | null;
-    userAssetBalance: number | null;
+    poolBalance: BigNumber | null;
+    userAssetBalance: BigNumber | null;
     decimals: number | null;
     isMounted: boolean;
     symbol: string;
@@ -46,7 +47,6 @@ const Dare = ({
     //        }
     //    }, [gameId]);
     useEffect(() => {
-
         console.log("lock", lock);
         if (lock !== _lock && lock === 1) {
             setLock(1);
@@ -60,12 +60,11 @@ const Dare = ({
         if (gameId !== _gameId) {
             setDareSuccess(true);
             setGameId(gameId);
-        } 
+        }
     }, [gameId]);
     const handleResultDisplay = () => {
-        setTimeout(()=> {
-
-        setDisplayResult(true);
+        setTimeout(() => {
+            setDisplayResult(true);
         }, 300);
         setTimeout(() => {
             setDisplayResult(false);
@@ -98,7 +97,10 @@ const Dare = ({
                     />
                     <Button
                         disabled={
-                            debouncedAmount === 0 || !isConnected || lock === 1 || poolBalance === 0
+                            debouncedAmount === 0 ||
+                            !isConnected ||
+                            lock === 1 ||
+                            poolBalance.eq(0)
                         }
                         pending={depositResult.type === "pending"}
                         className={`text-base md:text-2xl font-semibold text-slate-800 h-1/2 flex flex-col justify-center items-center text-center w-1/4 md:w-[172px] bg-[#67a0fc] text-[#091f3f] disabled:bg-slate-400 disabled:bg-slate-400 hover:bg-[#c9f2f2]`}
@@ -106,7 +108,7 @@ const Dare = ({
                             event.preventDefault();
                             const toastId = toast.loading("Starting…");
 
-                            deposit(true, debouncedAmount, (message:any) => {
+                            deposit(true, debouncedAmount, (message: any) => {
                                 toast.update(toastId, { render: message });
                             }).then(
                                 () => {
@@ -119,7 +121,7 @@ const Dare = ({
                                         closeButton: true,
                                     });
                                 },
-                                (error:any) => {
+                                (error: any) => {
                                     toast.update(toastId, {
                                         isLoading: false,
                                         type: "error",
@@ -137,7 +139,7 @@ const Dare = ({
                 <span className=" font-semibold flex flex-row justify-around items-center h-1/8 text-[#c9f2f2] relative md:left-[12.25rem] bottom-4">
                     &#127942; win chance:{" "}
                     {isMounted && decimals && poolBalance !== null
-                        ? poolBalance === 0
+                        ? poolBalance.eq(0)
                             ? 0
                             : Math.floor(
                                   100 *
@@ -146,8 +148,7 @@ const Dare = ({
                                           10 ** decimals) /
                                           poolBalance) *
                                       100
-                              ) / 100
-                        : "??"}
+                              ) / 100                        : "??"}
                     %
                 </span>
                 <span className=" font-semibold flex flex-row justify-around items-center h-1/8 text-[#c9f2f2] absolute left-6 bottom-7">

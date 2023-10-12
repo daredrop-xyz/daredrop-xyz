@@ -1,3 +1,4 @@
+import { BigNumber } from "ethers";
 import { usePromiseFn } from "../usePromiseFn";
 import { switchChain } from "../switchChain";
 import { useDareDropContractRead } from "../contracts";
@@ -25,7 +26,7 @@ const useClaimRewards = ({ connector, address, symbol }: Props) => {
         const unclaimedRewards = [];
         for (let i = upperBound; i >= lowerBound; i--) {
             const userBalance = await contract.userBalance(address, i);
-            if (userBalance.toNumber() > 0) {
+            if (userBalance.gt(0)) {
                 unclaimedRewards.push(i);
             }
         }
@@ -38,15 +39,15 @@ const useClaimRewards = ({ connector, address, symbol }: Props) => {
         const contract = await DareDropContract.connect(signer);
         const game = await DareDropContract.games(gameId);
         const userBalance = await contract.userBalance(address, gameId);
-        const rewards = game[0].toNumber();
-        const poolBalance = game[1].toNumber();
+        const rewards = game[0]
+        const poolBalance = game[1];
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         //@ts-ignore
-        const userRewards = (rewards * userBalance) / poolBalance;
+        const userRewards = rewards.mul(userBalance).div(poolBalance);
         return userRewards;
     };
     const [claimRewardsResult, claimRewards] = usePromiseFn(
-        async (gameId: number, onProgress: (message: string) => void) => {
+        async (gameId: BigNumber, onProgress: (message: string) => void) => {
             if (!connector) {
                 throw new Error("wallet not connected");
             }
@@ -62,7 +63,7 @@ const useClaimRewards = ({ connector, address, symbol }: Props) => {
                 onProgress(`Claiming ${symbol} rewards...`);
 
                 const tx = await promiseNotify(
-                    contract.claimRewards(gameId)
+                    contract.claimRewards(gameId.toString())
                 ).after(1000 * 5, () =>
                     onProgress("Please confirm transaction in your wallet...")
                 );

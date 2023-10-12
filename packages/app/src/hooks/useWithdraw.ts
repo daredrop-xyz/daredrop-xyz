@@ -1,3 +1,4 @@
+import { BigNumber } from "ethers";
 import { usePromiseFn } from "../usePromiseFn";
 import { switchChain } from "../switchChain";
 import { extractContractError } from "../extractContractError";
@@ -37,25 +38,27 @@ const useWithdraw = ({ connector, address, chain, symbol }: Props) => {
             const contract = DareDropContract.connect(signer);
             let underlyingAssetContract = assetContract(assetAddress);
 
-
             underlyingAssetContract = underlyingAssetContract.connect(signer);
             const decimals = await underlyingAssetContract.decimals();
-            const num = quantity * 10 ** decimals;
+            let num;
+            try {
+                num = BigNumber.from(quantity * 10 ** decimals);
+            } catch {
+                num = BigNumber.from(quantity).mul(10 ** decimals);
+            }
             try {
                 onProgress(
                     `Withdrawing ${pluralize(
-                                  quantity,
-                                  symbol,
-                                  symbol
-                              )} from the pool...`
+                        quantity,
+                        symbol,
+                        symbol
+                    )} from the pool...`
                 );
 
-                const tx = await promiseNotify(contract.withdraw(num)).after(
-                    1000 * 5,
-                    () =>
-                        onProgress(
-                            "Please confirm transaction in your wallet..."
-                        )
+                const tx = await promiseNotify(
+                    contract.withdraw(num.toString())
+                ).after(1000 * 5, () =>
+                    onProgress("Please confirm transaction in your wallet...")
                 );
                 console.log("withdraw tx", tx);
                 onProgress("Finalizing transaction...");

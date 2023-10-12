@@ -3,7 +3,7 @@
 source .env
 
 echo "deploying..."
-forge script packages/contracts/script/$CONTRACT.s.sol --rpc-url $RPC --broadcast --verify --chain-id $CHAIN_ID --watch
+forge script packages/contracts/script/$CONTRACT.s.sol --rpc-url $RPC --broadcast --verify --chain-id $NETWORK_ID --watch
 CONTRACT_NAME=$(cat broadcast/$CONTRACT.s.sol/$NETWORK_ID/run-latest.json | jq -r ".transactions[0].contractName")
 CONTRACT_ADDRESS=$(cat broadcast/$CONTRACT.s.sol/$NETWORK_ID/run-latest.json | jq -r ".transactions[0].contractAddress")
 HASH=$(cat broadcast/$CONTRACT.s.sol/$NETWORK_ID/run-latest.json | jq -r ".transactions[0].hash")
