@@ -47,8 +47,11 @@ Contract: [Arbiscan Contract Link](https://arbiscan.io/address/0xee7155c76f9dfa1
 
 ### layout:
 template initialized from https://github.com/holic/web3-scaffold
+
 contracts under packages/contracts
+
 frontend under packges/app
+
 subgraph stuff under packages/subgraph (not yet integrated/no need atm)
 
 
