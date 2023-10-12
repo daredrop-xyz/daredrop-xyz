@@ -22,8 +22,6 @@ export const Games = ({
     const [initialQuery, setInitialQuery] = useState(false);
     const [isOpen, setIsOpen] = useState<boolean>(false);
     const [isLoading, setIsLoading] = useState(false);
-    //    const [page, setPage] = useState<number>(0);
-    //    const [range, setRange] = useState<null | number>(null);
     const [userRewards, setUserRewards] = useState<any>([]);
     const {
         claimRewardsResult,
@@ -37,10 +35,6 @@ export const Games = ({
     const [start, setStart] = useState(gameId !== 0 ? gameId - 1 : null);
     const [end, setEnd] = useState(gameId - 20 > 0 ? gameId - 20 : 0);
 
-    //    useEffect(() => {
-    //      //  fetchUserRewards(gameId);
-    //    }, [isOpen, range]);
-    //
     useEffect(() => {
         const fetchUserRewards = async () => {
             const _userRewards = start === null ? [] : await findGameIdsWithRewards(start, end);

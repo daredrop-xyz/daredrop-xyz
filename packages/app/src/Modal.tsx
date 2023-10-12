@@ -30,7 +30,6 @@ import FocusTrap from "focus-trap-react";
 type Props = {
     title?: string;
     children: ReactNode;
-    size?: "small" | "medium";
     close: () => void;
     className?: string;
     position?: string;
@@ -41,7 +40,7 @@ type Props = {
 const modalClasses = "h-[200px] w-[600px] bg-gray-800 relative top-20" ;
 const positionClasses = "fixed top-0 left-0 w-full h-full flex flex-col items-center justify-around m-auto";
 
-const Modal = ({ title, children, size = "medium", close, className, position, bg, tstyle }: Props) => {
+const Modal = ({ title, children, close, className, position, bg, tstyle }: Props) => {
     return (
                 <div className={classNames(positionClasses)}>
                     <div

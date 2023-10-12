@@ -17,8 +17,8 @@ type Props = {
     userBalance: BigNumber;
     userAssetBalance: BigNumber;
     isMounted: boolean;
-    chain: any; //tricky typing im lazy
-    connector: any; //tricky typing im lazy
+    chain: any; //@TODO strict typing
+    connector: any; //@TODO strict typing
     address: string; 
     symbol: string;
 };
@@ -83,8 +83,6 @@ export const Interact = ({dareFee, poolBalance, lock, rewards, decimals, gameId,
 
             {isModalOpen ? (
                 <Modal
-                    //title={isDare ? "Dare" : "Drop"}
-                    size="medium"
                     close={() => triggerModal(null)}
                     position="flex justify-center items-center"
                     className="!w-[300px] md:!w-[600px] !h-[200px] -top-40 md:!top-20 "

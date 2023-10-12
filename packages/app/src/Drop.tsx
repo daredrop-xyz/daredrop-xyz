@@ -10,12 +10,12 @@ type Props = {
     setAmount: (amount: number) => void;
     debouncedAmount: number;
     isConnected: boolean;
-    depositResult: any; //tricky typing
-    deposit: any; //tricky typing
-    withdrawResult: any; //tricky typing
-    withdraw: any; //tricky typing
-    claimRewardsResult: any; //tricky typing
-    claimRewards: any; //tricky typing
+    depositResult: any; //@TODO strict typing
+    deposit: any; //@TODO strict typing
+    withdrawResult: any; //@TODO strict typing
+    withdraw: any; //@TODO strict typing
+    claimRewardsResult: any; //@TODO strict typing
+    claimRewards: any; //@TODO strict typing
     address: string;
     userAssetBalance: BigNumber | null;
     userBalance: BigNumber | null;

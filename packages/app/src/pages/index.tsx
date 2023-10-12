@@ -116,29 +116,6 @@ const HomePage: NextPage = () => {
 
     const isMounted = useIsMounted();
 
-    //isMounted &&
-    //                  _dareFeePriceData &&
-    //                  _poolBalance &&
-    //                  _lock &&
-    //                  _rewards &&
-    //                  _decimals &&
-    //                  _gameId &&
-    //                  _userBalance &&
-    //                  _userAssetBalance &&
-    //                  _symbol ? (
-    //
-//    console.log("\n\n\n\n\n\n\n\n\n\n\n");
-//    console.log("isMounted", isMounted);
-//    console.log("_dareFeePriceData", _dareFeePriceData);
-//    console.log("_poolBalance", _poolBalance);
-//    console.log("_lock", _lock);
-//    console.log("_rewards", _rewards);
-//    console.log("_decimals", _decimals);
-//    console.log("_gameId", _gameId);
-//    console.log("_userBalance", _userBalance);
-//    console.log("_userAssetBalance", _userAssetBalance);
-//    console.log("_symbol", _symbol);
-//    console.log("\n\n\n\n\n\n\n\n\n\n\n");
 
     return (
         <div className="h-screen flex flex-col bg-gray-900 overflow-hidden">
@@ -180,12 +157,6 @@ const HomePage: NextPage = () => {
                     <span className="absolute"></span>
                 )}
 
-                {/*
-                    <h1 className="text-4xl text-slate-300 p-10 bg-gradient-to-r from-purple-500 to-pink-500 animate-bounce relative top-10">
-                    Dare or Drop!
-                    </h1>
-
-                  */}
 
                 {/* Use isMounted to temporarily workaround hydration issues where
                     server-rendered markup doesn't match the client due to localStorage
@@ -235,20 +206,6 @@ const HomePage: NextPage = () => {
                             {isMounted && _symbol ? _symbol : "??"}
                         </span>
                     </p>
-                    {/*
-                        <p className=" text-3xl text-slate-300 flex flex-col justify-around">
-                        <span className="">most recent successful dare:</span>
-                        &nbsp;
-                        <span className="text-lime-300 bg-slate-800 text-center flex flex-row justify-around">
-                        <span>wager:</span>
-                        <span className="text-cyan-300">USDC</span>
-                        </span>{" "}
-                        <span className="text-lime-300 bg-slate-800 text-center flex flex-row justify-around">
-                        <span>payout:</span>
-                        <span className="text-cyan-300">USDC</span>
-                        </span>{" "}
-                        </p>
-                      */}
                     <div className="relative top-[28rem]  w-full">
                         {isMounted &&
                         _dareFeePriceData &&

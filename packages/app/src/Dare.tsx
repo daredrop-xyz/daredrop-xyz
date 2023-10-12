@@ -9,8 +9,8 @@ type Props = {
     setAmount: (amount: BigNumber) => void;
     debouncedAmount: number;
     isConnected: boolean;
-    depositResult: any; //tricky typing
-    deposit: any; //tricky typing
+    depositResult: any; //@TODO strict typing
+    deposit: any; //@TODO strict typing
     address: string;
     poolBalance: BigNumber | null;
     userAssetBalance: BigNumber | null;
@@ -38,14 +38,8 @@ const Dare = ({
     const [_gameId, setGameId] = useState<number | null>(gameId);
     const [dareSuccess, setDareSuccess] = useState<boolean>(false);
     const [displayResult, setDisplayResult] = useState<boolean>(false);
-    //  const [resultPending, setResultPending] = useState<boolean>(false);
     const [_lock, setLock] = useState<number | null>(lock);
 
-    //    useEffect(() => {
-    //        if (gameId !== gameId) {
-    //            setGameId(gameId);
-    //        }
-    //    }, [gameId]);
     useEffect(() => {
         console.log("lock", lock);
         if (lock !== _lock && lock === 1) {

@@ -14,15 +14,8 @@ import {
 import { publicProvider } from "wagmi/providers/public";
 import { arbitrum, arbitrumGoerli } from "wagmi/chains";
 
-// Will default to arb one if nothing set in the ENV
+//arbitrum mainnet network ID
 export const targetChainId = 42161;
-//
-// filter down to just arb mainnet + optional target testnet chain so that rainbowkit can tell
-// the user to switch network if they're on an alternative one
-//const targetChains = defaultChains;
-//    .filter(
-//  (chain) => chain.id === 42161 || chain.id === targetChainId
-//);
 
 export const { chains, provider, webSocketProvider } = configureChains(
     [arbitrum],
