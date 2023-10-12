@@ -22,7 +22,7 @@ type Props = {
     address: string; 
     symbol: string;
 };
-export const MintButton = ({dareFee, poolBalance, lock, rewards, decimals, gameId, userBalance, userAssetBalance, chain, connector, address, isMounted, symbol}: Props) => {
+export const Interact = ({dareFee, poolBalance, lock, rewards, decimals, gameId, userBalance, userAssetBalance, chain, connector, address, isMounted, symbol}: Props) => {
     const [isApproved, setIsApproved] = useState(false);
     const [amount, setAmount] = useState<amount>(0);
     const [debouncedAmount] = useDebounce(amount, 500);

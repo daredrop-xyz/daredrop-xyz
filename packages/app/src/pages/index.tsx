@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useFeeData, useContractRead, useNetwork, useAccount } from "wagmi";
 
 import { useDareDropContractRead, useAssetContractRead } from "../contracts";
-import { MintButton } from "../MintButton";
+import { Interact } from "../Interact";
 import { Games } from "../Games";
 import { useIsMounted } from "../useIsMounted";
 import { randomizerAbi } from "../abi/randomizer";
@@ -266,7 +266,7 @@ const HomePage: NextPage = () => {
                         _userAssetBalance !== null &&
                         _userAssetBalance >= 0 &&
                         _symbol ? (
-                            <MintButton
+                            <Interact
                                 dareFee={_dareFeePriceData}
                                 poolBalance={_poolBalance}
                                 lock={_lock}
