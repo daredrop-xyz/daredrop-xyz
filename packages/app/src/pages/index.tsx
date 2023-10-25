@@ -9,6 +9,7 @@ import { Interact } from "../Interact";
 import { Games } from "../Games";
 import { useIsMounted } from "../hooks/useIsMounted";
 import { randomizerAbi } from "../abi/randomizer";
+import  { Button } from "../Button";
 import { BigNumber as type } from "ethers";
 import getConfig from "../constants";
 import Logo from "../assets/logo.png";
@@ -129,7 +130,9 @@ const HomePage: NextPage = () => {
                         className="object-cover !hidden md:!block"
                         alt="brand logo"
                     />
+
                 </div>
+                <Button className="absolute right-[16rem] top-[0.5rem] text-base bg-gray-900 hover:bg-[#c9f2f2] hover:text-black !px-3 !py-2">how it works</Button>
                 {connector &&
                 _symbol &&
                 _gameId !== null &&
